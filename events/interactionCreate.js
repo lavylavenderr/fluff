@@ -3,17 +3,16 @@ const { Client } = require('discord.js')
 
 module.exports = {
     name: 'interactionCreate',
-        /**
-     * @param {Client} client
-     */
     execute(interaction, client) {
         if (interaction.isCommand()) {
-            fs.readdir(process.cwd() + '/commands', (err, files) => {
-                files.forEach(async (file) => {
-                    const cmd = require(process.cwd() + "/commands/" + file)
+            fs.readdirSync(process.cwd() + '/commands').forEach((dir) => {
+                const commands = fs.readdirSync(process.cwd() + `/commands/${dir}/`).filter(file => file.endsWith('.js'))
+                for (const file of commands) {
+                    const cmd = require(process.cwd() + `/commands/${dir}/${file}`)
                     if (cmd.command === interaction.commandName) return cmd.run(client, interaction)
-                })
+                }
             })
         }
+
     }
 }
