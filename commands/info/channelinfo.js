@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js')
+const { MessageEmbed, Client } = require('discord.js')
 const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
                 .addFields(
                     {
                         name: 'Name:',
-                        value: interaction.channel.name,
+                        value: String(interaction.channel.name),
                         inline: true
                     },
                     {
@@ -42,10 +42,9 @@ module.exports = {
                         value: interaction.channel.type,
                         inline: true
                     },
-
                     {
                         name: 'Messages:',
-                        value: interaction.channel.messages.length ? interaction.channel.messages.length : '0',
+                        value: '0',
                         inline: true
                     },
                     {
