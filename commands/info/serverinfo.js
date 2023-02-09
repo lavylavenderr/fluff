@@ -9,8 +9,6 @@ module.exports = {
     run: async (client, interaction) => {
         if (interaction.guild === null) return interaction.reply({ embeds: [new MessageEmbed().setDescription('Please run this command in a server!').setColor("RED")] })
 
-        console.log(interaction.guild)
-
         const Embed = new MessageEmbed()
             .setAuthor('Server Info', 'https://i.imgur.com/hWPDJuv.png')
             .addFields(

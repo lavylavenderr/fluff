@@ -8,10 +8,6 @@ const { Routes } = require('discord-api-types/v9')
 const client = new Discord.Client({
     intents: 32767
 })
-const statcord = new Statcord.Client({
-    client,
-    key: process.env.STATCORD
-})
 
 
 // Command and Event Files are loaded through index.js
@@ -56,7 +52,5 @@ const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
         console.log(err)
     }
 })();
-
-statcord.autopost()
 
 client.login(process.env.TOKEN)
