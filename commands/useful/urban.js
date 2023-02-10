@@ -16,33 +16,20 @@ module.exports = {
 
         try {
             const request = await (await axios.get(`https://api.urbandictionary.com/v0/define?term=${query}`)).data
+            const trim = (str, max) => (str.length > max ? `${str.slice(0, max - 3)}...` : str);
 
             const Embed = new MessageEmbed()
-            let example;
-            let definition;
-
-            if (request.list[0].example.length >= 1024) {
-                example = request.list[0].example.split()
-            } else {
-                example = request.list[0].example
-            }
-
-            if (request.list[0].definition.length >= 1024) {
-                definition = request.list[0].definition.split()
-            } else {
-                definition = request.list[0].definition
-            }
 
             Embed.setTitle(request.list[0].word)
             Embed.setURL(request.list[0].permalink)
             Embed.addFields(
                 {
                     name: 'Definition',
-                    value: definition
+                    value: trim(request.list[0].definition, 1024)
                 },
                 {
                     name: 'Example',
-                    value: example
+                    value: trim(request.list[0].example, 1024)
                 },
                 {
                     name: 'Rating',
