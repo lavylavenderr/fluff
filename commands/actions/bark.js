@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
+const actionsModel = require('../../schemas/actions')
 
 module.exports = {
     command: 'bark',

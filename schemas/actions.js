@@ -5,6 +5,10 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
+    given: {
+        type: Number,
+        default: 0
+    },
     bark: {
         type: Number,
         default: 0,
