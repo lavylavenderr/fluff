@@ -25,6 +25,10 @@ module.exports = {
         const Messages = await interaction.channel.messages.fetch()
         const Response = new MessageEmbed()
 
+        if (Amount >= 101) {
+            return interaction.reply({ embeds: [new MessageEmbed().setDescription('You can only delete 100 messages at a time!').setColor("RED")], ephemeral: true })
+        }
+
         if (Target) {
             let i = 0;
             const filtered = [];
