@@ -22,7 +22,12 @@ module.exports = {
 
         const nuzzle = [
             `softly nuzzles <@${User.id}> :3`,
-            `slowly nuzzles <@${User.id}> :3`
+            `slowly nuzzles <@${User.id}> :3`,
+            `applies soft little nuzzles to <@${User.id}>`,
+            `gets their nose up close to <@${User.id}> and nuzzles them!`,
+            `gets nice and close to <@${User.id}> for a soft nuzzle`,
+            `sneakily nuzzles <@${User.id}>!`,
+            `gets up close to <@${User.id}> and nuzzles them!`
         ]
 
         const random = Math.floor(Math.random() * nuzzle.length)

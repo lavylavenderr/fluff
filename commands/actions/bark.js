@@ -22,7 +22,11 @@ module.exports = {
 
         const arf = [
             `yips at <@${User.id}>`,
-            `barks at <@${User.id}>`
+            `barks at <@${User.id}>`,
+            `tries to get the attention of <@${User.id}> by barking at them!`,
+            `happily barks at <@${User.id}>!`,
+            `barks loudly at <@${User.id}>!`,
+            `bark bark barks at <@${User.id}>!`
         ]
 
         const random = Math.floor(Math.random() * arf.length)

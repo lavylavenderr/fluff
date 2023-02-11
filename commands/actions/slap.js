@@ -22,7 +22,12 @@ module.exports = {
 
         const slaps = [
             `walks up to <@${User.id}> and gives them a big ol' smack on the face. That's gotta hurt!`,
-            `jokingy slaps <@${User.id}> across the face. Maybe you should hit them harder!`
+            `jokingy slaps <@${User.id}> across the face. Maybe you should hit them harder!`,
+            `smacks <@${User.id}> hard, ouch!`,
+            `slappity slap slap slaps <@${User.id}>`,
+            `starts a SLAP FIGHT! <@${User.id}>, get ready to get SLAPPED!`,
+            `bitch slaps <@${User.id}>!`,
+            `walks up to <@${User.id}> and slaps them in the face`
         ]
 
         const random = Math.floor(Math.random() * slaps.length)

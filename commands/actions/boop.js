@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
+const actionsModel = require('../../schemas/actions')
 
 module.exports = {
     command: 'boop',
@@ -21,10 +22,43 @@ module.exports = {
 
             const boops = [
                 `surprises <@${User.id}> with a boop!`,
-                `boops <@${User.id}>!`
+                `boops <@${User.id}>!`,
+                `deployed their booping device to boop <@${User.id}> multiple times!`,
+                `teasingly boops <@${User.id}> on the nose!`,
+                `walks up behind <@${User.id}>, taps them on the back and the moment they turn around-- **boop!**`,
+                `runs around <@${User.id}> and boops them multiple times! **boop!**`,
+                `teasingly boops <@${User.id}> on the nose, **boop!**`
             ]
 
             const random = Math.floor(Math.random() * boops.length)
+
+            const GivingUser = await actionsModel.findOne({ id: interaction.member.id }) || false;
+
+        if (!GivingUser) {
+            const NewGiver = await actionsModel.create({
+                id: interaction.member.id,
+                given: 1
+            })
+
+            NewGiver.save();
+        } else {
+            const givenum = GivingUser.given + 1
+            await actionsModel.updateOne({ id: interaction.member.id }, { given: givenum })
+        }
+
+        const RecievingUser = await actionsModel.findOne({ id: User.id }) || false;
+
+        if (!RecievingUser) {
+            const NewRecieving = await actionsModel.create({
+                id: User.id,
+                boop: 1
+            })
+
+            NewRecieving.save();
+        } else {
+            const boopnum = RecievingUser.boop + 1
+            await actionsModel.updateOne({ id: User.id }, { boop: boopnum })
+        }
 
             if (User.id === interaction.member.id) {
                 interaction.reply(`<@${User.id}> boops themselves! 'o'`)

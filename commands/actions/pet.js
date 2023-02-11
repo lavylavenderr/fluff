@@ -2,13 +2,13 @@ const { SlashCommandBuilder } = require('@discordjs/builders')
 const actionsModel = require('../../schemas/actions')
 
 module.exports = {
-    command: 'kiss',
-    description: 'Want to kiss someone or yourself? This is the command to do so!',
+    command: 'pet',
+    description: 'Awh! You\'re sooo softt~',
     data: new SlashCommandBuilder()
-        .setName('kiss')
-        .setDescription('Want to kiss someone or yourself? This is the command to do so!')
+        .setName('pet')
+        .setDescription('Awh! You\'re sooo softt~')
         .addUserOption(option =>
-            option.setName('user').setDescription('The user you\'d like to kiss!')
+            option.setName('user').setDescription('The user you\'d like to pet!')
         ),
     run: async (client, interaction) => {
         let User;
@@ -20,16 +20,16 @@ module.exports = {
             User = interaction.member;
         }
 
-        const smooch = [
-            `jumps on <@${User.id}> and kisses them!`,
-            `walks up to <@${User.id}> and gives them a smooch :3`,
-            `lovingly smooches <@${User.id}>!`,
-            `shouts "Gimme some sugar baby!" and kisses <@${User.id}>`,
-            `hangs some mistletoe over the head of <@${User.id}> and smooches them`,
-            `happily kisses <@${User.id}>`
+        const hugs = [
+            `inches closer to <@${User.id}> and pets them!`,
+            `gently applies some pets to <@${User.id}>'s heads, soft!`,
+            `gently pets <@${User.id}>~`,
+            `rolls over to <@${User.id}> and gives them some pets and attention`,
+            `gives a couple of quick pets to <@${User.id}>!`,
+            `walks up to <@${User.id}> and pets them!`
         ]
 
-        const random = Math.floor(Math.random() * smooch.length)
+        const random = Math.floor(Math.random() * hugs.length)
 
         const GivingUser = await actionsModel.findOne({ id: interaction.member.id }) || false;
 
@@ -50,19 +50,19 @@ module.exports = {
         if (!RecievingUser) {
             const NewRecieving = await actionsModel.create({
                 id: User.id,
-                kiss: 1
+                hug: 1
             })
 
             NewRecieving.save();
         } else {
-            const kissnum = RecievingUser.kiss + 1
-            await actionsModel.updateOne({ id: User.id }, { kiss: kissnum })
+            const hugnum = GivingUser.hug + 1
+            await actionsModel.updateOne({ id: User.id }, { nuzzle: hugnum })
         }
 
         if (User.id === interaction.member.id) {
-            interaction.reply(`<@${User.id}> kisses the floor.. a bit awkward don't ya think?`)
+            interaction.reply(`<@${User.id}> hugs themself, gotta show that self love!`)
         } else {
-            interaction.reply(`${interaction.member.user.username} ${smooch[random]}`)
+            interaction.reply(`${interaction.member.user.username} ${hugs[random]}`)
         }
     }
 }

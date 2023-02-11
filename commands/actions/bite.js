@@ -22,7 +22,11 @@ module.exports = {
 
         const bite = [
             `munches and crunches on <@${User.id}> (this isn't vore, I swear!)`,
-            `nibbles on <@${User.id}>'s ear`
+            `nibbles on <@${User.id}>'s ear`,
+            `surprises <@${User.id}> with some surprise nibbles!`,
+            `gives <@${User.id}> a couple of soft bites`,
+            `opens wide and chomps <@${User.id}>.. chomp chomp..`,
+            `can't resist to bite <@${User.id}>!`
         ]
 
         const random = Math.floor(Math.random() * bite.length)

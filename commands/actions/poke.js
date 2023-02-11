@@ -2,13 +2,13 @@ const { SlashCommandBuilder } = require('@discordjs/builders')
 const actionsModel = require('../../schemas/actions')
 
 module.exports = {
-    command: 'kiss',
-    description: 'Want to kiss someone or yourself? This is the command to do so!',
+    command: 'poke',
+    description: 'Pokey poke poke',
     data: new SlashCommandBuilder()
-        .setName('kiss')
-        .setDescription('Want to kiss someone or yourself? This is the command to do so!')
+        .setName('poke')
+        .setDescription('Pokey poke poke')
         .addUserOption(option =>
-            option.setName('user').setDescription('The user you\'d like to kiss!')
+            option.setName('user').setDescription('The user you\'d like to slap!')
         ),
     run: async (client, interaction) => {
         let User;
@@ -20,16 +20,17 @@ module.exports = {
             User = interaction.member;
         }
 
-        const smooch = [
-            `jumps on <@${User.id}> and kisses them!`,
-            `walks up to <@${User.id}> and gives them a smooch :3`,
-            `lovingly smooches <@${User.id}>!`,
-            `shouts "Gimme some sugar baby!" and kisses <@${User.id}>`,
-            `hangs some mistletoe over the head of <@${User.id}> and smooches them`,
-            `happily kisses <@${User.id}>`
+        const poke = [
+            `sneaks up behind <@${User.id}> and pokes them!`,
+            `pokes <@${User.id}>.. then pokes them again!`,
+            `pokepokepokes <@${User.id}>!`,
+            `pokes <@${User.id}> with beans.. BEANS!!!`,
+            `sticks out their arm and rapidly pokes their target(s): <@${User.id}> !!!`,
+            `softly pokes <@${User.id}> in their tum`,
+            `pokes <@${User.id}> with a stick.. mm, pointy!`
         ]
 
-        const random = Math.floor(Math.random() * smooch.length)
+        const random = Math.floor(Math.random() * poke.length)
 
         const GivingUser = await actionsModel.findOne({ id: interaction.member.id }) || false;
 
@@ -50,19 +51,19 @@ module.exports = {
         if (!RecievingUser) {
             const NewRecieving = await actionsModel.create({
                 id: User.id,
-                kiss: 1
+                poke: 1
             })
 
             NewRecieving.save();
         } else {
-            const kissnum = RecievingUser.kiss + 1
-            await actionsModel.updateOne({ id: User.id }, { kiss: kissnum })
+            const pokenum = RecievingUser.poke + 1
+            await actionsModel.updateOne({ id: User.id }, { poke: pokenum })
         }
 
         if (User.id === interaction.member.id) {
-            interaction.reply(`<@${User.id}> kisses the floor.. a bit awkward don't ya think?`)
+            interaction.reply(`<@${User.id}> you can\'t poke yourself >:(`)
         } else {
-            interaction.reply(`${interaction.member.user.username} ${smooch[random]}`)
+            interaction.reply(`${interaction.member.user.username} ${poke[random]}`)
         }
     }
 }

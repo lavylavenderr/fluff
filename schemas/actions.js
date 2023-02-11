@@ -37,6 +37,10 @@ const schema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    poke: {
+        type: Number,
+        default: 0
+    },
     slap: {
         type: Number,
         default: 0

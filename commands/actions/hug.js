@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
+const actionsModel = require('../../schemas/actions')
 
 module.exports = {
     command: 'hug',
@@ -21,10 +22,43 @@ module.exports = {
 
         const hugs = [
             `braces <@${User.id}> in a warm embrace :3`,
-            `hugs <@${User.id}> tightly OwO`
+            `hugs <@${User.id}> tightly OwO`,
+            `spreads their arms and locks <@${User.id}> in a cozy hug!`,
+            `places <@${User.id}> in front of a warm campfire and hugs them`,
+            `yells: FREE HUGS FOR <@${User.id}>!!`,
+            `covers <@${User.id}> in floof!`,
+            `gives <@${User.id}> a big hug`
         ]
 
         const random = Math.floor(Math.random() * hugs.length)
+
+        const GivingUser = await actionsModel.findOne({ id: interaction.member.id }) || false;
+
+        if (!GivingUser) {
+            const NewGiver = await actionsModel.create({
+                id: interaction.member.id,
+                given: 1
+            })
+
+            NewGiver.save();
+        } else {
+            const givenum = GivingUser.given + 1
+            await actionsModel.updateOne({ id: interaction.member.id }, { given: givenum })
+        }
+
+        const RecievingUser = await actionsModel.findOne({ id: User.id }) || false;
+
+        if (!RecievingUser) {
+            const NewRecieving = await actionsModel.create({
+                id: User.id,
+                hug: 1
+            })
+
+            NewRecieving.save();
+        } else {
+            const hugnum = RecievingUser.hug + 1
+            await actionsModel.updateOne({ id: User.id }, { hug: hugnum })
+        }
 
         if (User.id === interaction.member.id) {
             interaction.reply(`<@${User.id}> hugs themselves!`)
