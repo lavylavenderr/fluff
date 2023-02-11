@@ -13,6 +13,10 @@ const schema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    bite: {
+        type: Number,
+        default: 0
+    },
     boop: {
         type: Number,
         default: 0
@@ -22,6 +26,22 @@ const schema = new mongoose.Schema({
         default: 0
     },
     kiss: {
+        type: Number,
+        default: 0
+    },
+    nuzzle: {
+        type: Number,
+        default: 0
+    },
+    pet: {
+        type: Number,
+        default: 0
+    },
+    slap: {
+        type: Number,
+        default: 0
+    },
+    spank: {
         type: Number,
         default: 0
     }

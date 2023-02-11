@@ -7,7 +7,7 @@ module.exports = {
         .setName('ping')
         .setDescription('Replies with the ping of the bot!'),
     run: async (client, interaction) => {
-        interaction.reply(`🏓 Pong!`)
+        interaction.reply(`🏓 Pong! The API Latency is ${client.ws.ping} ms.`)
     }
     
 }
