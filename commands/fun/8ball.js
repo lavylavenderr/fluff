@@ -54,7 +54,14 @@ module.exports = {
 
             interaction.reply({ embeds: [Embed] })
         } catch (err) {
+            console.log(err)
 
+            const ErrorEmbed = new MessageEmbed()
+
+            ErrorEmbed.setColor("RED")
+            ErrorEmbed.setDescription('Oops. Something went wrong!')
+
+            interaction.reply({ embeds: [ErrorEmbed] })
         }
     }
 }

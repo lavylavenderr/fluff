@@ -27,6 +27,34 @@ module.exports = {
 
         const random = Math.floor(Math.random() * arf.length)
 
+        const GivingUser = await actionsModel.findOne({ id: interaction.member.id }) || false;
+
+        if (!GivingUser) {
+            const NewGiver = await actionsModel.create({
+                id: interaction.member.id,
+                given: 1
+            })
+
+            NewGiver.save();
+        } else {
+            const givenum = GivingUser.given + 1
+            await actionsModel.updateOne({ id: interaction.member.id }, { given: givenum })
+        }
+
+        const RecievingUser = await actionsModel.findOne({ id: User.id }) || false;
+
+        if (!RecievingUser) {
+            const NewRecieving = await actionsModel.create({
+                id: User.id,
+                bark: 1
+            })
+
+            NewRecieving.save();
+        } else {
+            const barknum = RecievingUser.bark + 1
+            await actionsModel.updateOne({ id: User.id }, { bark: barknum })
+        }
+
         if (User.id === interaction.member.id) {
             interaction.reply(`<@${User.id}> barks at the wall!`)
         } else {
