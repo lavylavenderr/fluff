@@ -24,9 +24,9 @@ client.commandDir = "./commands/";
 
 const commands = {};
 fs.readdirSync(client.commandDir).forEach((dirs) => {
-    commands[dirs] = readdirSync(`${client.commandDir}${dirs}`)
+    commands[dirs] = fs.readdirSync(`${client.commandDir}${dirs}`)
         .filter((file) => file.endsWith(".js"))
-        .map(() => require(`${client.commandDir}${dirs}/${file}`));
+        .map((file) => require(`${client.commandDir}${dirs}/${file}`));
 });
 
 client.commands = commands;
