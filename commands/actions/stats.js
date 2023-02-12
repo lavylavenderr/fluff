@@ -33,6 +33,7 @@ module.exports = {
 
         const StatsEmbed = new MessageEmbed()
             .setAuthor(`${interaction.member.user.username}#${interaction.member.user.discriminator}'s Action Stats`)
+            .setColor("#FFB6C1")
             .addFields(
                 {
                     name: 'Barked At:',

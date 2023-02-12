@@ -23,6 +23,7 @@ module.exports = {
             }
 
             const Embed = new MessageEmbed()
+            .setColor("#FFB6C1")
             .setAuthor(User.user.username + '\'s Avatar')
             .setImage(User.displayAvatarURL({ format: 'png', size: 2048, preferAnimated: true }))
 

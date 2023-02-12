@@ -25,6 +25,7 @@ module.exports = {
 
         if (interaction.channel.id === Channel.id) {
             const Embed = new MessageEmbed()
+                .setColor("#FFB6C1")
                 .setAuthor('Channel Info', 'https://i.imgur.com/hWPDJuv.png')
                 .addFields(
                     {

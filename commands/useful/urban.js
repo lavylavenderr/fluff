@@ -20,6 +20,7 @@ module.exports = {
 
             const Embed = new MessageEmbed()
 
+            Embed.setColor("#FFB6C1")
             Embed.setTitle(request.list[0].word)
             Embed.setURL(request.list[0].permalink)
             Embed.addFields(

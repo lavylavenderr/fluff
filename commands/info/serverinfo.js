@@ -10,6 +10,7 @@ module.exports = {
         if (interaction.guild === null) return interaction.reply({ embeds: [new MessageEmbed().setDescription('Please run this command in a server!').setColor("RED")] })
 
         const Embed = new MessageEmbed()
+            .setColor("#FFB6C1")
             .setAuthor('Server Info', 'https://i.imgur.com/hWPDJuv.png')
             .addFields(
                 {

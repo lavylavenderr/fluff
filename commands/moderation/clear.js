@@ -41,10 +41,12 @@ module.exports = {
 
             await channel.bulkDelete(filtered, true).then((messages) => {
                 Response.setDescription(`🧹 Cleared ${messages.size} from ${Target}.`);
+                Response.setColor("#FFB6C1")
                 interaction.reply({ embeds: [Response], ephemeral: true });
             });
         } else {
             await channel.bulkDelete(Amount, true).then((messages) => {
+                Response.setColor("#FFB6C1")
                 Response.setDescription(
                   `🧹 Cleared ${messages.size} from this channel.`
                 );

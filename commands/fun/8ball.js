@@ -40,6 +40,7 @@ module.exports = {
             const random = Math.floor(Math.random() * responses.length)
 
             const Embed = new MessageEmbed()
+                .setColor("#FFB6C1")
                 .setAuthor(interaction.member.user.username, interaction.member.user.displayAvatarURL({ format: 'png', size: 2048, preferAnimated: true }))
                 .addFields(
                     {

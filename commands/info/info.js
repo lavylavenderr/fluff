@@ -15,9 +15,10 @@ module.exports = {
             const GB = Math.floor(bytes / 1024 / 1024 / 1024);
             if (MB >= 1000) return `${GB.toFixed(1)} GB`;
             else return `${Math.round(MB)} MB`;
-          }
+        }
 
         const Embed = new MessageEmbed()
+            .setColor("#FFB6C1")
             .setAuthor(`Fluff Info`, 'https://i.imgur.com/hWPDJuv.png')
             .setDescription('Hey there! These are my stats, to see all available commands use /help!')
             .addFields(
@@ -52,7 +53,7 @@ module.exports = {
                     inline: true
                 }
             )
-        
+
 
         interaction.reply({ embeds: [Embed] })
     }
