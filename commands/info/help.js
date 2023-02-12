@@ -49,7 +49,7 @@ module.exports = {
                 const catemoji = categoryemoji.find(
                     (c) => c.name && c.name.includes(key)
                 );
-                const uppercase = dirs.charAt(0).toUpperCase() + dirs.slice(1);
+                const uppercase = key.charAt(0).toUpperCase() + key.slice(1);
                 const correctedname = catemoji.value + ` ${uppercase}`;
 
                 return { name: correctedname, commands: commands };
