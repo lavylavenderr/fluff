@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 const actionsModel = require('../../schemas/actions')
+const { MessageEmbed } = require('discord.js') 
 
 module.exports = {
     command: 'hug',
@@ -11,6 +12,8 @@ module.exports = {
             option.setName('user').setDescription('The user you\'d like to hug!')
         ),
     run: async (client, interaction) => {
+        if (interaction.guild === null) return interaction.reply({ embeds: [new MessageEmbed().setDescription('Please run this command in a server!').setColor("RED")] })
+
         let User;
         try {
             User = await interaction.guild.members.fetch(

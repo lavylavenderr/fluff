@@ -18,6 +18,12 @@ module.exports = {
             const request = await (await axios.get(`https://api.urbandictionary.com/v0/define?term=${query}`)).data
             const trim = (str, max) => (str.length > max ? `${str.slice(0, max - 3)}...` : str);
 
+            const NotFoundEmbed = new MessageEmbed()
+                .setColor("RED")
+                .setDescription('Sorry, your query couldn\'t be found. Feel free to try again!')
+
+            if (!request.list.length >= 1) return interaction.reply({ embeds: [NotFoundEmbed] })
+
             const Embed = new MessageEmbed()
 
             Embed.setColor("#FFB6C1")

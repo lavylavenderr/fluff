@@ -12,6 +12,8 @@ module.exports = {
         option.setName('user').setDescription('The user you would like to fetch stats for.')
     ),
     run: async (client, interaction) => {
+        if (interaction.guild === null) return interaction.reply({ embeds: [new MessageEmbed().setDescription('Please run this command in a server!').setColor("RED")] })
+
         let User;
         try {
             User = await interaction.guild.members.fetch(

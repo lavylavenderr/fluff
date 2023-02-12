@@ -15,6 +15,10 @@ const client = new Discord.Client({
 const eventPath = path.join(__dirname, '/events');
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
 
+// Binding Stuff
+
+client.commandDir = "./commands/";
+
 // Loading Events and Slash Commands/Registering Commands
 
 let commandarray = []
@@ -26,6 +30,12 @@ fs.readdirSync('./commands').forEach((dirs) => {
         commandarray.push(command.data.toJSON())
     }
 })
+
+// For Help Command
+
+exports.array = commandarray;
+
+// Back to loading crap
 
 for (file of eventFiles) {
     const filePath = path.join(eventPath, file)
