@@ -12,7 +12,9 @@ const client = new Discord.Client({
 // Command and Event Files are loaded through index.js
 
 const eventPath = path.join(__dirname, "/events");
-const eventFiles = fs.readdirSync("./events").filter((file) => file.endsWith(".js"));
+const eventFiles = fs
+    .readdirSync("./events")
+    .filter((file) => file.endsWith(".js"));
 
 // Binding Stuff
 

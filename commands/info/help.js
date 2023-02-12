@@ -7,7 +7,13 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("help")
         .setDescription("Learn about all of Fluff's commands here!")
-        .addStringOption((option) => option.setName("command").setDescription("The command you would like to fetch information about.")),
+        .addStringOption((option) =>
+            option
+                .setName("command")
+                .setDescription(
+                    "The command you would like to fetch information about."
+                )
+        ),
     run: async (client, interaction) => {
         const commandName = interaction.options.getString("command");
 
@@ -36,9 +42,13 @@ module.exports = {
             ];
 
             const categories = Object.keys(client.commands).map((key) => {
-                const commands = client.commands[key].map((command) => "/" + command.command);
+                const commands = client.commands[key].map(
+                    (command) => "/" + command.command
+                );
 
-                const catemoji = categoryemoji.find((c) => c.name && c.name.includes(key));
+                const catemoji = categoryemoji.find(
+                    (c) => c.name && c.name.includes(key)
+                );
                 const uppercase = dirs.charAt(0).toUpperCase() + dirs.slice(1);
                 const correctedname = catemoji.value + ` ${uppercase}`;
 
@@ -47,7 +57,12 @@ module.exports = {
 
             // console.log(categories)
 
-            const Embed = new MessageEmbed().setTitle("Help Menu").setColor("#FFB6C1").setDescription("Get started with Fluff by simply reading this message! This command provides all current commands along with the ability to view details of each individual command.\n\nDo `/help [command]` to fetch its detailed description.");
+            const Embed = new MessageEmbed()
+                .setTitle("Help Menu")
+                .setColor("#FFB6C1")
+                .setDescription(
+                    "Get started with Fluff by simply reading this message! This command provides all current commands along with the ability to view details of each individual command.\n\nDo `/help [command]` to fetch its detailed description."
+                );
 
             categories.forEach((cat) => {
                 const { name, commands } = cat;
@@ -59,12 +74,18 @@ module.exports = {
             const command =
                 Object.values(client.commands)
                     .flat()
-                    .find((cmd) => cmd.command === commandName.toLowerCase()) || false;
+                    .find((cmd) => cmd.command === commandName.toLowerCase()) ||
+                false;
             if (!command) {
-                return interaction.reply({ content: "Could not find that command" });
+                return interaction.reply({
+                    content: "Could not find that command",
+                });
             }
 
-            const Embed = new MessageEmbed().setTitle(`Command: ${command.name}`).setColor("#FFB6C1").setDescription(command.data.description);
+            const Embed = new MessageEmbed()
+                .setTitle(`Command: ${command.name}`)
+                .setColor("#FFB6C1")
+                .setDescription(command.data.description);
 
             interaction.reply({ embeds: [Embed] });
         }
