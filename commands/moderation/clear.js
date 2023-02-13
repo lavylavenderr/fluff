@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
+const { PermissionFlagsBits } = require('discord-api-types/v10');
 const { MessageEmbed } = require('discord.js')
 
 module.exports = {
@@ -7,6 +8,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('clear')
         .setDescription('Clears messages sent in a channel or by a user.')
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
         .addNumberOption(option =>
             option.setName('amount').setDescription('The amount of messages you would like to clear.').setRequired(true)
         )
@@ -17,8 +19,6 @@ module.exports = {
         const { channel } = interaction;
 
         if (interaction.guild === null) return interaction.reply({ embeds: [new MessageEmbed().setDescription('Please run this command in a server!').setColor("RED")] })
-
-        if (!interaction.member.permissions.has("MANAGE_MESSAGES")) return interaction.reply({ embeds: [new MessageEmbed().setDescription('You cannot run this command!').setColor("RED")] })
 
         const Amount = interaction.options.getNumber('amount')
         const Target = interaction.options.getUser('user')

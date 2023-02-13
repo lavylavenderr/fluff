@@ -1,5 +1,5 @@
 # FluffBot
-Furry Discord Bot - [Click Here for Invite](https://fluffbot.xyz)
+Furry Discord Bot - [Click Here for Invite](https://fluffbot.xyz/invite)
 
 This bot was based off the original FurBot created by PhunStyle. The source code helped me quite a bit so, thank you PhunStyle!
 

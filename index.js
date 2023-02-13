@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const { Intents } = require('discord.js')
 const fs = require("fs");
 require("dotenv").config();
 const path = require("path");
@@ -6,7 +7,7 @@ const Statcord = require("statcord.js");
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const client = new Discord.Client({
-    intents: 32767,
+    intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILDS],
 });
 
 // Command and Event Files are loaded through index.js

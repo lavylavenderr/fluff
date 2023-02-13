@@ -6,11 +6,11 @@ module.exports = {
     command: 'stats',
     description: 'See how many times you\'ve been interacted with!',
     data: new SlashCommandBuilder()
-    .setName('stats')
-    .setDescription('See how many times you\'ve been interacted with!')
-    .addUserOption(option =>
-        option.setName('user').setDescription('The user you would like to fetch stats for.')
-    ),
+        .setName('stats')
+        .setDescription('See how many times you\'ve been interacted with!')
+        .addUserOption(option =>
+            option.setName('user').setDescription('The user you would like to fetch stats for.')
+        ),
     run: async (client, interaction) => {
         if (interaction.guild === null) return interaction.reply({ embeds: [new MessageEmbed().setDescription('Please run this command in a server!').setColor("RED")] })
 
@@ -23,18 +23,25 @@ module.exports = {
             User = interaction.member;
         }
 
-        const UserStats = await actionsModel.findOne({ id: User.id})
+        const UserStats = await actionsModel.findOne({ id: User.id })
 
         const ErrorEmbed = new MessageEmbed()
 
-            ErrorEmbed.setColor("RED")
-            ErrorEmbed.setDescription('Oops. That user is not in the database!')
+        ErrorEmbed.setColor("RED")
+        ErrorEmbed.setDescription('Oops. That user is not in the database!')
 
 
         if (!UserStats) return interaction.reply({ embeds: [ErrorEmbed] })
 
         const StatsEmbed = new MessageEmbed()
-            .setAuthor(`${interaction.member.user.username}#${interaction.member.user.discriminator}'s Action Stats`)
+            .setAuthor({
+                name: `${User.user.tag}`,
+                iconURL: `${User.displayAvatarURL({
+                    dynamic: true,
+                    size: 512,
+                })}`,
+            })
+            .setDescription(`The following fields show the action stats of the requested user. These include each time you've been interacted with and with what command.`)
             .setColor("#FFB6C1")
             .addFields(
                 {
@@ -83,6 +90,8 @@ module.exports = {
                     inline: true
                 }
             )
+            .setFooter(`Requested by: ${interaction.member.user.tag}`)
+            .setTimestamp()
 
         interaction.reply({ embeds: [StatsEmbed] })
     }
