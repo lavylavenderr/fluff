@@ -1,49 +1,47 @@
-const { SlashCommandBuilder } = require('@discordjs/builders')
-const { MessageEmbed } = require('discord.js')
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 module.exports = {
-    command: 'serverinfo',
-    description: 'Fetches information about the current server.',
+    command: "serverinfo",
+    description: "Fetches information about the current server.",
     data: new SlashCommandBuilder()
-        .setName('serverinfo')
-        .setDescription('Fetches information about the current server.'),
+        .setName("serverinfo")
+        .setDescription("Fetches information about the current server.")
+        .setDMPermission(false),
     run: async (client, interaction) => {
-        if (interaction.guild === null) return interaction.reply({ embeds: [new MessageEmbed().setDescription('Please run this command in a server!').setColor("RED")] })
-
         const Embed = new MessageEmbed()
             .setColor("#FFB6C1")
-            .setAuthor('Server Info', 'https://i.imgur.com/hWPDJuv.png')
+            .setAuthor("Server Info", "https://i.imgur.com/hWPDJuv.png")
             .addFields(
                 {
-                    name: 'Name',
+                    name: "Name",
                     value: String(interaction.guild.name),
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'ID:',
+                    name: "ID:",
                     value: String(interaction.guild.id),
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'Owner:',
+                    name: "Owner:",
                     value: `<@${interaction.guild.ownerId}>`,
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'Channels:',
+                    name: "Channels:",
                     value: String(interaction.guild.channels.cache.size),
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'Members:',
+                    name: "Members:",
                     value: String(interaction.guild.members.cache.size),
-                    inline: true
+                    inline: true,
                 }
-
             )
             .setThumbnail(interaction.guild.iconURL)
             .setTimestamp(interaction.guild.createdAt.toDateString())
-            .setFooter('Server Created')
+            .setFooter("Server Created");
 
-        interaction.reply({ embeds: [Embed] })
-    }
-}
+        interaction.reply({ embeds: [Embed] });
+    },
+};

@@ -1,32 +1,47 @@
-const { SlashCommandBuilder } = require('@discordjs/builders')
-const { PermissionFlagsBits } = require('discord-api-types/v10');
-const { MessageEmbed } = require('discord.js')
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { PermissionFlagsBits } = require("discord-api-types/v10");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-    command: 'clear',
-    description: 'Clears messages sent in a channel. or by a user.',
+    command: "clear",
+    description: "Clears messages sent in a channel. or by a user.",
     data: new SlashCommandBuilder()
-        .setName('clear')
-        .setDescription('Clears messages sent in a channel or by a user.')
+        .setName("clear")
+        .setDescription("Clears messages sent in a channel or by a user.")
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
-        .addNumberOption(option =>
-            option.setName('amount').setDescription('The amount of messages you would like to clear.').setRequired(true)
+        .addNumberOption((option) =>
+            option
+                .setName("amount")
+                .setDescription(
+                    "The amount of messages you would like to clear."
+                )
+                .setRequired(true)
         )
-        .addUserOption(option =>
-            option.setName('user').setDescription('User who\'s messages you\'d like to clear.')
-        ),
+        .addUserOption((option) =>
+            option
+                .setName("user")
+                .setDescription("User who's messages you'd like to clear.")
+        )
+        .setDMPermission(false),
     run: async (client, interaction) => {
         const { channel } = interaction;
 
-        if (interaction.guild === null) return interaction.reply({ embeds: [new MessageEmbed().setDescription('Please run this command in a server!').setColor("RED")] })
-
-        const Amount = interaction.options.getNumber('amount')
-        const Target = interaction.options.getUser('user')
-        const Messages = await interaction.channel.messages.fetch()
-        const Response = new MessageEmbed()
+        const Amount = interaction.options.getNumber("amount");
+        const Target = interaction.options.getUser("user");
+        const Messages = await interaction.channel.messages.fetch();
+        const Response = new MessageEmbed();
 
         if (Amount >= 101) {
-            return interaction.reply({ embeds: [new MessageEmbed().setDescription('You can only delete 100 messages at a time!').setColor("RED")], ephemeral: true })
+            return interaction.reply({
+                embeds: [
+                    new MessageEmbed()
+                        .setDescription(
+                            "You can only delete 100 messages at a time!"
+                        )
+                        .setColor("RED"),
+                ],
+                ephemeral: true,
+            });
         }
 
         if (Target) {
@@ -40,18 +55,20 @@ module.exports = {
             });
 
             await channel.bulkDelete(filtered, true).then((messages) => {
-                Response.setDescription(`🧹 Cleared ${messages.size} from ${Target}.`);
-                Response.setColor("#FFB6C1")
+                Response.setDescription(
+                    `🧹 Cleared ${messages.size} from ${Target}.`
+                );
+                Response.setColor("#FFB6C1");
                 interaction.reply({ embeds: [Response], ephemeral: true });
             });
         } else {
             await channel.bulkDelete(Amount, true).then((messages) => {
-                Response.setColor("#FFB6C1")
+                Response.setColor("#FFB6C1");
                 Response.setDescription(
-                  `🧹 Cleared ${messages.size} from this channel.`
+                    `🧹 Cleared ${messages.size} from this channel.`
                 );
                 interaction.reply({ embeds: [Response], ephemeral: true });
-             });
+            });
         }
-    }
-}
+    },
+};

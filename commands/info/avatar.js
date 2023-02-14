@@ -21,7 +21,8 @@ module.exports = {
      */
     run: async (client, interaction) => {
         try {
-            let User = interaction.options.getUser("user") || interaction.user;
+            const User =
+                interaction.options.getUser("user") || interaction.user;
 
             const Embed = new MessageEmbed()
                 .setColor("#FFB6C1")
