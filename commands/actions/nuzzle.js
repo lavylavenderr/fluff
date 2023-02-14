@@ -1,24 +1,25 @@
-const { SlashCommandBuilder } = require('@discordjs/builders')
-const actionsModel = require('../../schemas/actions')
-const { MessageEmbed } = require('discord.js') 
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const actionsModel = require("../../schemas/actions");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-    command: 'nuzzle',
-    description: 'nyuzzwes yu~',
+    command: "nuzzle",
+    description: "nyuzzwes yu~",
     data: new SlashCommandBuilder()
-        .setName('nuzzle')
-        .setDescription('nyuzzwes yu~')
-        .addUserOption(option =>
-            option.setName('user').setDescription('The user you\'d like to nuzzle!')
-        ),
+        .setName("nuzzle")
+        .setDescription("nyuzzwes yu~")
+        .addUserOption((option) =>
+            option
+                .setName("user")
+                .setDescription("The user you'd like to nuzzle!")
+        )
+        .setDMPermission(false),
     run: async (client, interaction) => {
-        if (interaction.guild === null) return interaction.reply({ embeds: [new MessageEmbed().setDescription('Please run this command in a server!').setColor("RED")] })
-
         let User;
         try {
             User = await interaction.guild.members.fetch(
-                interaction.options.getUser('user') || interaction.member.id
-            )
+                interaction.options.getUser("user") || interaction.member.id
+            );
         } catch (err) {
             User = interaction.member;
         }
@@ -30,43 +31,54 @@ module.exports = {
             `gets their nose up close to <@${User.id}> and nuzzles them!`,
             `gets nice and close to <@${User.id}> for a soft nuzzle`,
             `sneakily nuzzles <@${User.id}>!`,
-            `gets up close to <@${User.id}> and nuzzles them!`
-        ]
+            `gets up close to <@${User.id}> and nuzzles them!`,
+        ];
 
-        const random = Math.floor(Math.random() * nuzzle.length)
+        const random = Math.floor(Math.random() * nuzzle.length);
 
-        const GivingUser = await actionsModel.findOne({ id: interaction.member.id }) || false;
+        const GivingUser =
+            (await actionsModel.findOne({ id: interaction.member.id })) ||
+            false;
 
         if (!GivingUser) {
             const NewGiver = await actionsModel.create({
                 id: interaction.member.id,
-                given: 1
-            })
+                given: 1,
+            });
 
             NewGiver.save();
         } else {
-            const givenum = GivingUser.given + 1
-            await actionsModel.updateOne({ id: interaction.member.id }, { given: givenum })
+            const givenum = GivingUser.given + 1;
+            await actionsModel.updateOne(
+                { id: interaction.member.id },
+                { given: givenum }
+            );
         }
 
-        const RecievingUser = await actionsModel.findOne({ id: User.id }) || false;
+        const RecievingUser =
+            (await actionsModel.findOne({ id: User.id })) || false;
 
         if (!RecievingUser) {
             const NewRecieving = await actionsModel.create({
                 id: User.id,
-                nuzzle: 1
-            })
+                nuzzle: 1,
+            });
 
             NewRecieving.save();
         } else {
-            const nuzzlenum = RecievingUser.nuzzle + 1
-            await actionsModel.updateOne({ id: User.id }, { nuzzle: nuzzlenum })
+            const nuzzlenum = RecievingUser.nuzzle + 1;
+            await actionsModel.updateOne(
+                { id: User.id },
+                { nuzzle: nuzzlenum }
+            );
         }
 
         if (User.id === interaction.member.id) {
-            interaction.reply(`<@${User.id}> you can't nuzzle yourself  >:(`)
+            interaction.reply(`<@${User.id}> you can't nuzzle yourself  >:(`);
         } else {
-            interaction.reply(`${interaction.member.user.username} ${nuzzle[random]}`)
+            interaction.reply(
+                `${interaction.member.user.username} ${nuzzle[random]}`
+            );
         }
-    }
-}
+    },
+};

@@ -1,98 +1,96 @@
-const { SlashCommandBuilder } = require('@discordjs/builders')
-const actionsModel = require('../../schemas/actions')
-const { MessageEmbed } = require('discord.js')
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const actionsModel = require("../../schemas/actions");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-    command: 'stats',
-    description: 'See how many times you\'ve been interacted with!',
+    command: "stats",
+    description: "See how many times you've been interacted with!",
     data: new SlashCommandBuilder()
-        .setName('stats')
-        .setDescription('See how many times you\'ve been interacted with!')
-        .addUserOption(option =>
-            option.setName('user').setDescription('The user you would like to fetch stats for.')
+        .setName("stats")
+        .setDescription("See how many times you've been interacted with!")
+        .addUserOption((option) =>
+            option
+                .setName("user")
+                .setDescription("The user you would like to fetch stats for.")
         ),
+    /**
+     * @param {import("discord.js").Client} client
+     * @param {import("discord.js").CommandInteraction} interaction
+     */
     run: async (client, interaction) => {
-        if (interaction.guild === null) return interaction.reply({ embeds: [new MessageEmbed().setDescription('Please run this command in a server!').setColor("RED")] })
+        const User = interaction.options.getUser("user") || interaction.user;
 
-        let User;
-        try {
-            User = await interaction.guild.members.fetch(
-                interaction.options.getUser('user') || interaction.member.id
-            )
-        } catch (err) {
-            User = interaction.member;
-        }
+        const UserStats = await actionsModel.findOne({ id: User.id });
 
-        const UserStats = await actionsModel.findOne({ id: User.id })
+        const ErrorEmbed = new MessageEmbed();
 
-        const ErrorEmbed = new MessageEmbed()
+        ErrorEmbed.setColor("RED");
+        ErrorEmbed.setDescription("Oops. That user is not in the database!");
 
-        ErrorEmbed.setColor("RED")
-        ErrorEmbed.setDescription('Oops. That user is not in the database!')
-
-
-        if (!UserStats) return interaction.reply({ embeds: [ErrorEmbed] })
+        if (!UserStats) return interaction.reply({ embeds: [ErrorEmbed] });
 
         const StatsEmbed = new MessageEmbed()
             .setAuthor({
-                name: `${User.user.tag}`,
+                name: `${User.tag}`,
                 iconURL: `${User.displayAvatarURL({
                     dynamic: true,
                     size: 512,
                 })}`,
             })
-            .setDescription(`The following fields show the action stats of the requested user. These include each time you've been interacted with and with what command.`)
+            .setDescription(
+                `The following fields show the action stats of the requested user. These include each time you've been interacted with and with what command.`
+            )
             .setColor("#FFB6C1")
             .addFields(
                 {
-                    name: 'Barked At:',
+                    name: "Barked At:",
                     value: String(UserStats.bark),
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'Bit:',
+                    name: "Bit:",
                     value: String(UserStats.bite),
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'Booped:',
+                    name: "Booped:",
                     value: String(UserStats.boop),
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'Hugged:',
+                    name: "Hugged:",
                     value: String(UserStats.hug),
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'Kissed:',
+                    name: "Kissed:",
                     value: String(UserStats.kiss),
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'Pet:',
+                    name: "Pet:",
                     value: String(UserStats.pet),
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'Poked:',
+                    name: "Poked:",
                     value: String(UserStats.poke),
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'Slapped:',
+                    name: "Slapped:",
                     value: String(UserStats.slap),
-                    inline: true
+                    inline: true,
                 },
                 {
-                    name: 'Spanked:',
+                    name: "Spanked:",
                     value: String(UserStats.spank),
-                    inline: true
+                    inline: true,
                 }
             )
-            .setFooter(`Requested by: ${interaction.member.user.tag}`)
-            .setTimestamp()
+            .setFooter(`Requested by: ${interaction.user.tag}`)
+            .setTimestamp();
 
-        interaction.reply({ embeds: [StatsEmbed] })
-    }
-}
+        interaction.reply({ embeds: [StatsEmbed] });
+    },
+};
