@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const axios = require("axios");
 require("dotenv").config();
 
@@ -52,9 +51,9 @@ module.exports = {
         } catch (err) {
             console.log(err);
 
-            const ErrorEmbed = new MessageEmbed();
+            const ErrorEmbed = new EmbedBuilder();
 
-            ErrorEmbed.setColor("RED");
+            ErrorEmbed.setColor("#FF0000");
             ErrorEmbed.setDescription("Oops. Something went wrong!");
 
             interaction.reply({ embeds: [ErrorEmbed] });
