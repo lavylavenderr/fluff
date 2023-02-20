@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const axios = require("axios");
 
 module.exports = {
@@ -25,11 +24,12 @@ module.exports = {
                     )}`
                 )
             ).data;
+
             const trim = (str, max) =>
                 str.length > max ? `${str.slice(0, max - 3)}...` : str;
 
-            const NotFoundEmbed = new MessageEmbed()
-                .setColor("RED")
+            const NotFoundEmbed = new EmbedBuilder()
+                .setColor("#FF0000")
                 .setDescription(
                     "Sorry, your query couldn't be found. Feel free to try again!"
                 );
@@ -37,7 +37,7 @@ module.exports = {
             if (!request.list.length >= 1)
                 return interaction.reply({ embeds: [NotFoundEmbed] });
 
-            const Embed = new MessageEmbed();
+            const Embed = new EmbedBuilder();
 
             Embed.setColor("#FFB6C1");
             Embed.setTitle(request.list[0].word);
@@ -61,9 +61,9 @@ module.exports = {
         } catch (err) {
             console.log(err);
 
-            const ErrorEmbed = new MessageEmbed();
+            const ErrorEmbed = new EmbedBuilder();
 
-            ErrorEmbed.setColor("RED");
+            ErrorEmbed.setColor("#FF0000");
             ErrorEmbed.setDescription(
                 "Oops. Double check your query and try again. The API might be down D:"
             );

@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const axios = require('axios')
 
 module.exports = {
@@ -12,13 +11,13 @@ module.exports = {
         try {
             const request = await (await axios.get('http://api.adviceslip.com/advice')).data;
 
-            interaction.reply({ embeds: [new MessageEmbed().setDescription(request.slip.advice).setColor("#FFB6C1")]})
+            interaction.reply({ embeds: [new EmbedBuilder().setDescription(request.slip.advice).setColor("#FFB6C1")]})
         } catch (err) {
             console.log(err);
 
-            const ErrorEmbed = new MessageEmbed();
+            const ErrorEmbed = new EmbedBuilder();
 
-            ErrorEmbed.setColor("RED");
+            ErrorEmbed.setColor("#FF0000");
             ErrorEmbed.setDescription(
                 "Oops... The API might be down, try again later."
             );

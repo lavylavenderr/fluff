@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
     command: "help",
@@ -57,17 +56,26 @@ module.exports = {
 
             // console.log(categories)
 
-            const Embed = new MessageEmbed()
+            const Embed = new EmbedBuilder()
                 .setTitle("Help Menu")
                 .setColor("#FFB6C1")
                 .setDescription(
                     "Get started with Fluff by simply reading this message! This command provides all current commands along with the ability to view details of each individual command.\n\nDo `/help [command]` to fetch its detailed description."
                 );
 
+            const CatCmds = [];
+
             categories.forEach((cat) => {
                 const { name, commands } = cat;
-                Embed.addField(name, commands.join(", "));
+                CatCmds.push(
+                    {
+                        name: name,
+                        value: commands.join(", ")
+                    }
+                )
             });
+
+            Embed.addFields(CatCmds)
 
             interaction.reply({ embeds: [Embed] });
         } else {
@@ -82,7 +90,7 @@ module.exports = {
                 });
             }
 
-            const Embed = new MessageEmbed()
+            const Embed = new EmbedBuilder()
                 .setTitle(`Command: ${command.name}`)
                 .setColor("#FFB6C1")
                 .setDescription(command.data.description);

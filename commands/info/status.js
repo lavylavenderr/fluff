@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
     command: "status",
@@ -12,7 +11,7 @@ module.exports = {
     run: async (client, interaction) => {
         const user = interaction.user;
 
-        const Embed = new MessageEmbed()
+        const Embed = new EmbedBuilder()
             .setAuthor({
                 name: `${user.tag}`,
                 iconURL: `${user.displayAvatarURL({

@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 module.exports = {
     command: "serverinfo",
     description: "Fetches information about the current server.",
@@ -8,7 +7,7 @@ module.exports = {
         .setDescription("Fetches information about the current server.")
         .setDMPermission(false),
     run: async (client, interaction) => {
-        const Embed = new MessageEmbed()
+        const Embed = new EmbedBuilder()
             .setColor("#FFB6C1")
             .setAuthor("Server Info", "https://i.imgur.com/hWPDJuv.png")
             .addFields(

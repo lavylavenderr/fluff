@@ -1,14 +1,15 @@
-const Discord = require("discord.js");
-const { Intents } = require('discord.js')
+const { Client, GatewayIntentBits } = require('discord.js')
 const fs = require("fs");
 require("dotenv").config();
 const path = require("path");
 const Statcord = require("statcord.js");
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
-const client = new Discord.Client({
-    intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILDS],
+const client = new Client({
+    intents: [GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildMembers, GatewayIntentBits.Guilds],
 });
+
+
 
 // Command and Event Files are loaded through index.js
 
@@ -44,7 +45,7 @@ for (file of eventFiles) {
     }
 }
 
-const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
+const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 (async () => {
     try {
         console.log("Trying to refresh slash commands.");

@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 require("dotenv").config();
 
 module.exports = {
@@ -24,7 +23,7 @@ module.exports = {
             const User =
                 interaction.options.getUser("user") || interaction.user;
 
-            const Embed = new MessageEmbed()
+            const Embed = new EmbedBuilder()
                 .setColor("#FFB6C1")
                 .setAuthor(User.username + "'s Avatar")
                 .setImage(
@@ -37,7 +36,7 @@ module.exports = {
 
             if (User.id === process.env.BOTID) {
                 Embed.setDescription(
-                    "Fluff's profile picture was designed by #artist!"
+                    "Fluff's profile picture was designed by [ollie](https://twitter.com/__rat__king__) on Twitter!"
                 );
             }
 
@@ -45,7 +44,7 @@ module.exports = {
         } catch (error) {
             interaction.reply({
                 embeds: [
-                    new MessageEmbed()
+                    new EmbedBuilder()
                         .setDescription(
                             "Oops, we ran into a error trying to process this command."
                         )

@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders')
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const prettyMilliseconds = require("pretty-ms");
 const packagaefile = require('../../package.json')
 const osu = require('node-os-utils')
@@ -21,7 +20,7 @@ module.exports = {
 
         const cpuUsage = (await cpu.usage()) + "%"
 
-        const Embed = new MessageEmbed()
+        const Embed = new EmbedBuilder()
             .setColor("#FFB6C1")
             .setAuthor(`Fluff Info`, 'https://i.imgur.com/hWPDJuv.png')
             .setDescription('Hey there! These are my stats, to see all available commands use /help!')

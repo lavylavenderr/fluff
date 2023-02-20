@@ -1,6 +1,5 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
 const actionsModel = require("../../schemas/actions");
-const { MessageEmbed } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
     command: "stats",
@@ -22,9 +21,9 @@ module.exports = {
 
         const UserStats = await actionsModel.findOne({ id: User.id });
 
-        const ErrorEmbed = new MessageEmbed();
+        const ErrorEmbed = new EmbedBuilder();
 
-        ErrorEmbed.setColor("RED");
+        ErrorEmbed.setColor("#FF0000");
         ErrorEmbed.setDescription("Oops. That user is not in the database!");
 
         if (!UserStats) return interaction.reply({ embeds: [ErrorEmbed] });

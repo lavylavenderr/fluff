@@ -1,6 +1,5 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
 const { PermissionFlagsBits } = require("discord-api-types/v10");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
     command: "clear",
@@ -29,7 +28,7 @@ module.exports = {
         const Amount = interaction.options.getNumber("amount");
         const Target = interaction.options.getUser("user");
         const Messages = await interaction.channel.messages.fetch();
-        const Response = new MessageEmbed();
+        const Response = new EmbedBuilder();
 
         if (Amount >= 101) {
             return interaction.reply({
@@ -38,7 +37,7 @@ module.exports = {
                         .setDescription(
                             "You can only delete 100 messages at a time!"
                         )
-                        .setColor("RED"),
+                        .setColor("#FF0000"),
                 ],
                 ephemeral: true,
             });

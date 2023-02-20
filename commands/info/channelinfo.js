@@ -1,5 +1,4 @@
-const { MessageEmbed, Client } = require("discord.js");
-const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
     command: "channelinfo",
@@ -27,7 +26,7 @@ module.exports = {
         }
 
         if (interaction.channel.id === Channel.id) {
-            const Embed = new MessageEmbed()
+            const Embed = new EmbedBuilder()
                 .setColor("#FFB6C1")
                 .setAuthor("Channel Info", "https://i.imgur.com/hWPDJuv.png")
                 .addFields(
@@ -64,7 +63,7 @@ module.exports = {
 
             interaction.reply({ embeds: [Embed] });
         } else if ((Channel.type = "GUILD_CATEGORY")) {
-            const Embed = new MessageEmbed()
+            const Embed = new EmbedBuilder()
                 .setAuthor("Category Info", "https://i.imgur.com/hWPDJuv.png")
                 .addFields(
                     {
@@ -88,7 +87,7 @@ module.exports = {
 
             interaction.reply({ embeds: [Embed] });
         } else {
-            const Embed = new MessageEmbed()
+            const Embed = new EmbedBuilder()
                 .setAuthor("Channel Info", "https://i.imgur.com/hWPDJuv.png")
                 .addFields(
                     {
