@@ -28,7 +28,7 @@ module.exports = {
 
         if (!UserStats) return interaction.reply({ embeds: [ErrorEmbed] });
 
-        const StatsEmbed = new MessageEmbed()
+        const StatsEmbed = new EmbedBuilder()
             .setAuthor({
                 name: `${User.tag}`,
                 iconURL: `${User.displayAvatarURL({
