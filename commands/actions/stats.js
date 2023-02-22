@@ -26,6 +26,8 @@ module.exports = {
         ErrorEmbed.setColor("#FF0000");
         ErrorEmbed.setDescription("Oops. That user is not in the database!");
 
+        const Footer = `Requested by: ${interaction.user.tag}` //Fucking DiscordJS v14
+
         if (!UserStats) return interaction.reply({ embeds: [ErrorEmbed] });
 
         const StatsEmbed = new EmbedBuilder()
@@ -87,7 +89,7 @@ module.exports = {
                     inline: true,
                 }
             )
-            .setFooter(`Requested by: ${interaction.user.tag}`)
+            .setFooter(Footer)
             .setTimestamp();
 
         interaction.reply({ embeds: [StatsEmbed] });
