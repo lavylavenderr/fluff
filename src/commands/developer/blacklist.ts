@@ -114,11 +114,6 @@ export class PingCommand extends Subcommand {
             .setDescription("Here is information about the requested guild.")
             .addFields([
               {
-                name: "Name",
-                value: String(guildinfo.name),
-                inline: true,
-              },
-              {
                 name: "ID",
                 value: String(guildinfo.guild_id),
                 inline: true,
