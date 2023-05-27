@@ -1,26 +1,35 @@
 {
   "name": "fluff",
-  "version": "1.5.0",
+  "version": "1.0.0",
   "description": "A discord bot for furries.",
-  "main": "src/index.ts",
+  "main": "src/index.types",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "build": "tsc && prisma generate",
+    "start": "node dist/index.js"
   },
   "author": "Alexander Hyman",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^4.11.0",
-    "@sapphire/decorators": "^6.0.0",
-    "@sapphire/framework": "^4.2.2",
-    "@sapphire/plugin-logger": "^3.0.1",
-    "@sapphire/plugin-subcommands": "^4.0.0",
-    "@sapphire/utilities": "^3.11.0",
-    "@types/node": "^18.15.3",
+    "@prisma/client": "^4.14.1",
+    "@sapphire/decorators": "^6.0.1",
+    "@sapphire/framework": "^4.4.4",
+    "@sapphire/plugin-logger": "^3.0.4",
+    "@sapphire/plugin-subcommands": "^4.0.1",
+    "@sapphire/utilities": "^3.11.2",
     "chalk": "^4.1.2",
-    "discord.js": "^14.8.0",
+    "discord.js": "^14.11.0",
     "dotenv": "^16.0.3"
   },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^6.0.3",
+    "zlib-sync": "^0.1.8"
+  },
   "devDependencies": {
-    "prisma": "^4.11.0"
+    "@types/node": "^20.2.5",
+    "prisma": "^4.14.1",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1"
   }
 }

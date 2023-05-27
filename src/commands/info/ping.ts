@@ -1,22 +1,32 @@
-import { ChatInputCommand, Command } from "@sapphire/framework";
 import { isMessageInstance } from "@sapphire/discord.js-utilities";
+import { Command } from "@sapphire/framework";
+import { ApplyOptions } from "@sapphire/decorators";
+import { Message } from "discord.js";
 
+@ApplyOptions<Command.Options>({
+  description: "pingy pong",
+  aliases: ["pong"],
+})
 export class PingCommand extends Command {
-  public constructor(context: Command.Context, options: Command.Options) {
-    super(context, {
-      ...options,
-      name: "ping",
-      aliases: ["pong"],
-      description: "pingy pong"
-    });
+  public override registerApplicationCommands(registry: Command.Registry) {
+    registry.registerChatInputCommand((builder) =>
+      builder //
+        .setName(this.name)
+        .setDescription(this.description)
+    );
   }
 
-  public override registerApplicationCommands(
-    registry: ChatInputCommand.Registry
-  ) {
-    registry.registerChatInputCommand((builder) => {
-      builder.setName("ping").setDescription("pingy pong");
-    });
+  // TODO: Extract common code
+  // TODO: this is a mess...
+
+  public async messageRun(message: Message) {
+    const msg = await message.channel.send("Ping?");
+
+    const content = `Pong 🏓! (Round trip took: ${Math.round(
+      msg.createdTimestamp - message.createdTimestamp
+    )}ms. Heartbeat: ${Math.round(this.container.client.ws.ping)}ms.)`;
+
+    return msg.edit(content);
   }
 
   public async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
@@ -27,13 +37,13 @@ export class PingCommand extends Command {
     });
 
     if (isMessageInstance(msg)) {
-      const diff = msg.createdTimestamp - interaction.createdTimestamp;
-      const ping = Math.round(this.container.client.ws.ping);
       return interaction.editReply(
-        `Pong 🏓! (Round trip took: ${diff}ms. Heartbeat: ${ping}ms.)`
+        `Pong 🏓! (Round trip took: ${
+          msg.createdTimestamp - interaction.createdTimestamp
+        }ms. Heartbeat: ${Math.round(this.container.client.ws.ping)}ms.)`
       );
+    } else {
+      return interaction.editReply("Failed to retrieve ping :(");
     }
-
-    return interaction.editReply("Failed to retrieve ping :(");
   }
 }

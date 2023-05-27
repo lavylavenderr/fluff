@@ -6,29 +6,28 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
-model Actions {
-  id         Int    @id @default(autoincrement())
-  discord_id String @unique
-  given      Int    @default(0)
-  bark       Int    @default(0)
-  bite       Int    @default(0)
-  boop       Int    @default(0)
-  hug        Int    @default(0)
-  kiss       Int    @default(0)
-  nuzzle     Int    @default(0)
-  pet        Int    @default(0)
-  poke       Int    @default(0)
-  slap       Int    @default(0)
-  spank      Int    @default(0)
+model Action {
+  type       String
+  recieverId String
+  discordId  String
+
+  User User @relation(fields: [discordId], references: [discordId])
+  id   Int  @id @default(autoincrement())
+
+  @@index([discordId])
 }
 
-model Blacklist {
-  id       Int    @id @default(autoincrement())
-  guild_id String @unique
-  reason   String @default("No reason given.")
+model User {
+  discordId String   @unique
+  actions   Action[]
+}
+
+model Guild {
+  guildId String  @unique
+  prefix  String? @default("-")
 }
