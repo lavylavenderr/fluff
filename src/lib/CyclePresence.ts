@@ -14,15 +14,32 @@ interface ActivityItem {
 }
 
 const presences: ActivityItem[] = [
-    {
-        details: `/help | fluffbot.app`,
-        type: ActivityType.Listening
-    }
-]
+  {
+    details: `/help | fluffbot.app`,
+    type: ActivityType.Listening,
+  },
+  {
+    details: `f!help | fluffbot.app`,
+    type: ActivityType.Listening,
+  },
+  {
+    details: `over %s% servers`,
+    type: ActivityType.Watching
+  },
+  {
+    details: `over %u% users`,
+    type: ActivityType.Watching
+  }
+];
 
 export async function cyclePresence(client: Client) {
-    const index = Math.floor(Math.random() * presences.length);
-    const activity = presences[index]
+  const index = Math.floor(Math.random() * presences.length);
+  const activity = presences[index];
+  
+  let activityString = "";
 
-    client.user?.setActivity(activity.details, { type: activity.type })
+  if (activity.details.includes("%s%")) activityString = activity.details.replace("%s%", client.guilds.cache.size.toString());
+  else activityString = activity.details.replace("%u%", client.users.cache.size.toString());
+
+  client.user?.setActivity(activityString, { type: activity.type });
 }

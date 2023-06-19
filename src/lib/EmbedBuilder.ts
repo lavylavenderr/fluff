@@ -18,7 +18,7 @@ interface ConstructEmbedOptions {
   color?: ColorResolvable;
 }
 
-export function embedBuilder(
+export function constructEmbed(
   options: ConstructEmbedOptions = {}
 ): EmbedBuilder {
   const {
@@ -41,7 +41,6 @@ export function embedBuilder(
     .setImage(image ?? null)
     .setThumbnail(thumbnail ?? null)
     .setURL(URL ?? null)
-    .setTimestamp()
     .setFooter(footer ?? null)
-    .setColor(color ?? 0x2b2d31);
+    .setColor(color ?? 0xf7d8de);
 }

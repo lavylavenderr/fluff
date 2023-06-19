@@ -1,12 +1,12 @@
 import { Listener } from "@sapphire/framework";
 import { type Guild } from "discord.js";
-import { prisma } from "../../index";
+import { container } from "@sapphire/framework";
 
 export class GuildCreateListener extends Listener {
   public async run(guild: Guild) {
     const { id, name } = guild;
 
-    await prisma.guild
+    await container.prisma.guild
       .create({
         data: { guildId: id },
       })
@@ -14,7 +14,7 @@ export class GuildCreateListener extends Listener {
         this.container.logger.info(
           `Failed to create record for added guild: ${name} (${id})`
         );
-      })
+      });
 
     // Debugging
     this.container.logger.info(`Added to guild: ${name} (${id})`);

@@ -2,11 +2,13 @@
   "name": "fluff",
   "version": "1.0.0",
   "description": "A discord bot for furries.",
-  "main": "src/index.types",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/index.js\"",
     "build": "tsc && prisma generate",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
   },
   "author": "Alexander Hyman",
   "license": "ISC",
@@ -14,12 +16,15 @@
     "@prisma/client": "^4.14.1",
     "@sapphire/decorators": "^6.0.1",
     "@sapphire/framework": "^4.4.4",
+    "@sapphire/plugin-api": "^5.1.0",
     "@sapphire/plugin-logger": "^3.0.4",
+    "@sapphire/plugin-scheduled-tasks": "^7.1.0",
     "@sapphire/plugin-subcommands": "^4.0.1",
     "@sapphire/utilities": "^3.11.2",
     "chalk": "^4.1.2",
     "discord.js": "^14.11.0",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "tsc-watch": "^6.0.4"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.7",
@@ -29,7 +34,6 @@
   "devDependencies": {
     "@types/node": "^20.2.5",
     "prisma": "^4.14.1",
-    "nodemon": "^2.0.22",
-    "ts-node": "^10.9.1"
+    "typescript": "^5.1.3"
   }
 }

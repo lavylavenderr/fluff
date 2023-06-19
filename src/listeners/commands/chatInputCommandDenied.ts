@@ -12,7 +12,8 @@ export class ChatInputCommandDenied extends Listener<
   public run(error: UserError, { interaction }: ChatInputCommandDeniedPayload) {
     try {
       if (error.message == "1") {
-        const message = "Sorry, this server is blacklisted from the bot. If the owner would like to appeal, join the support server.";
+        const message =
+          "Sorry, this server is blacklisted from the bot. If the owner would like to appeal, join the support server.";
         return this.replyWithError(message, interaction);
       }
 
@@ -20,29 +21,28 @@ export class ChatInputCommandDenied extends Listener<
         const message = "Sorry, this command is available to developers only.";
         return this.replyWithError(message, interaction);
       }
+
+      return this.replyWithError(error.message, interaction);
     } catch (err) {
       this.container.logger.fatal(err);
       return;
     }
   }
 
-  private replyWithError(message: string, interaction: ChatInputCommandDeniedPayload['interaction']) {
+  private replyWithError(
+    message: string,
+    interaction: ChatInputCommandDeniedPayload["interaction"]
+  ) {
     if (interaction.deferred || interaction.replied) {
       return interaction.editReply({
         embeds: [
-          new EmbedBuilder()
-            .setDescription(message)
-            .setColor("#FF0000"),
+          new EmbedBuilder().setDescription(message).setColor("#FF0000"),
         ],
       });
     }
 
     return interaction.reply({
-      embeds: [
-        new EmbedBuilder()
-          .setDescription(message)
-          .setColor("#FF0000"),
-      ],
+      embeds: [new EmbedBuilder().setDescription(message).setColor("#FF0000")],
       ephemeral: true,
     });
   }

@@ -1,14 +1,17 @@
-import { isMessageInstance } from "@sapphire/discord.js-utilities";
+import { type Message } from "discord.js";
 import { Command } from "@sapphire/framework";
-import { ApplyOptions } from "@sapphire/decorators";
-import { Message } from "discord.js";
+import { isMessageInstance } from "@sapphire/discord.js-utilities";
 
-@ApplyOptions<Command.Options>({
-  description: "pingy pong",
-  aliases: ["pong"],
-})
 export class PingCommand extends Command {
-  public override registerApplicationCommands(registry: Command.Registry) {
+  public constructor(context: Command.Context, options: Command.Options) {
+    super(context, {
+      ...options,
+      name: "ping",
+      description: "Check the bot's ping!"
+    });
+  }
+
+  public override registerApplicationCommands(registry: Command.Registry) { 
     registry.registerChatInputCommand((builder) =>
       builder //
         .setName(this.name)
@@ -19,7 +22,7 @@ export class PingCommand extends Command {
   // TODO: Extract common code
   // TODO: this is a mess...
 
-  public async messageRun(message: Message) {
+  public async messageRun(message: Message) { 
     const msg = await message.channel.send("Ping?");
 
     const content = `Pong 🏓! (Round trip took: ${Math.round(
@@ -43,7 +46,7 @@ export class PingCommand extends Command {
         }ms. Heartbeat: ${Math.round(this.container.client.ws.ping)}ms.)`
       );
     } else {
-      return interaction.editReply("Failed to retrieve ping :(");
+      return interaction.editReply("Failed to retrieve ping D:");
     }
   }
 }

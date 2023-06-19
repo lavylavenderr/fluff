@@ -6,28 +6,36 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Action {
-  type       String
-  recieverId String
-  discordId  String
+  id        Int    @id @default(autoincrement())
+  type      String
+  discordId String
 
   User User @relation(fields: [discordId], references: [discordId])
-  id   Int  @id @default(autoincrement())
-
-  @@index([discordId])
 }
 
 model User {
-  discordId String   @unique
-  actions   Action[]
+  discordId  String   @unique
+  totalUsage Int      @default(0)
+  premium    Boolean  @default(false)
+  actions    Action[]
 }
 
 model Guild {
-  guildId String  @unique
-  prefix  String? @default("-")
+  guildId   String @unique
+  totalCmds Int    @default(0)
+}
+
+model BotStats {
+  id        Int @id @unique @default(autoincrement())
+  totalCmds Int @default(0)
+  guilds    Int @default(0)
+  users     Int @default(0)
+  shards    Int @default(0)
+  clusters  Int @default(0)
 }
