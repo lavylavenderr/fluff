@@ -1,2 +1,5 @@
+prisma/migrations/
+node_modules/
+dist/
+
 .env
-/node_modules

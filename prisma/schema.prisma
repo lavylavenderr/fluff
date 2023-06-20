@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Action {
+  id        Int    @id @default(autoincrement())
+  type      String
+  discordId String
+
+  User User @relation(fields: [discordId], references: [discordId])
+}
+
+model User {
+  discordId  String   @unique
+  totalUsage Int      @default(0)
+  premium    Boolean  @default(false)
+  actions    Action[]
+}
+
+model Guild {
+  guildId         String  @unique
+  totalCmds       Int     @default(0)
+  nsfw            Boolean @default(false)
+  blacklistedTags String  @default("")
+}
+
+model BotStats {
+  id        Int @id @unique @default(autoincrement())
+  totalCmds Int @default(0)
+  guilds    Int @default(0)
+  users     Int @default(0)
+  shards    Int @default(0)
+  clusters  Int @default(0)
+}

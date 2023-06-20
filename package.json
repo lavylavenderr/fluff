@@ -1,35 +1,42 @@
 {
-  "name": "fluff-bot",
+  "name": "fluff",
   "version": "1.0.0",
-  "description": "Furry Bot for furry servers :3",
-  "main": "index.js",
+  "description": "A discord bot for furries.",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/index.js\"",
+    "build": "tsc && prisma generate",
+    "start": "node dist/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LavenderFoxxo/fluff.git"
-  },
-  "keywords": [
-    "furry",
-    "discord",
-    "discord",
-    "bot"
-  ],
-  "author": "Lavender",
+  "author": "Alexander Hyman",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/LavenderFoxxo/fluff/issues"
-  },
-  "homepage": "https://github.com/LavenderFoxxo/fluff#readme",
   "dependencies": {
-    "axios": "^1.3.2",
-    "discord.js": "^14.7.1",
+    "@prisma/client": "^4.14.1",
+    "@sapphire/decorators": "^6.0.1",
+    "@sapphire/framework": "^4.4.4",
+    "@sapphire/plugin-api": "^5.1.0",
+    "@sapphire/plugin-logger": "^3.0.4",
+    "@sapphire/plugin-scheduled-tasks": "^7.1.0",
+    "@sapphire/plugin-subcommands": "^4.0.1",
+    "@sapphire/utilities": "^3.11.2",
+    "@sentry/node": "^7.56.0",
+    "@sentry/types": "^7.56.0",
+    "chalk": "^4.1.2",
+    "discord-image-generation": "^1.4.25",
+    "discord.js": "^14.11.0",
     "dotenv": "^16.0.3",
-    "mongoose": "^6.9.1",
-    "node-os-utils": "^1.3.7",
-    "nodemon": "^2.0.20",
-    "pretty-ms": "^7.0.1",
-    "statcord.js": "^3.4.3"
+    "tsc-watch": "^6.0.4"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^6.0.3",
+    "zlib-sync": "^0.1.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.5",
+    "prisma": "^4.14.1",
+    "typescript": "^5.1.3"
   }
 }
