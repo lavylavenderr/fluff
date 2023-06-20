@@ -7,11 +7,11 @@ export class PingCommand extends Command {
     super(context, {
       ...options,
       name: "ping",
-      description: "Check the bot's ping!"
+      description: "Check the bot's ping!",
     });
   }
 
-  public override registerApplicationCommands(registry: Command.Registry) { 
+  public override registerApplicationCommands(registry: Command.Registry) {
     registry.registerChatInputCommand((builder) =>
       builder //
         .setName(this.name)
@@ -19,10 +19,7 @@ export class PingCommand extends Command {
     );
   }
 
-  // TODO: Extract common code
-  // TODO: this is a mess...
-
-  public async messageRun(message: Message) { 
+  public async messageRun(message: Message) {
     const msg = await message.channel.send("Ping?");
 
     const content = `Pong 🏓! (Round trip took: ${Math.round(

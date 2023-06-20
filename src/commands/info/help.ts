@@ -14,10 +14,10 @@ export class HelpCommand extends Command {
     super(context, {
       ...options,
       name: "help",
-      description: "Shows all available commands.",
+      description: "Shows all available commands."
     });
   }
-
+ 
   public override registerApplicationCommands(registry: Command.Registry) {
     registry.registerChatInputCommand((builder) =>
       builder //
@@ -49,49 +49,124 @@ export class HelpCommand extends Command {
 
   public async messageRun(message: Message) {
     const commandStore = this.container.stores.get("commands");
-    const commandsByCategory: Record<string, string[]> = {};
+    const filteredCommands = commandStore.filter(
+      (cmd) => cmd.name === message.content.slice(7)
+    );
+    const commandInfo = filteredCommands.get(message.content.slice(7));
+    const categories: string[] = [];
 
     commandStore.forEach((command: Command) => {
-      if (!command.typing === true) return;
+      categories.push(command.fullCategory[0]);
+    });
 
-      const { name, category } = command as CommandInfo;
+    if (commandInfo) {
+      return message.reply({
+        embeds: [
+          constructEmbed({
+            author: {
+              name: "Command Info",
+              iconURL: this.container.client.user?.displayAvatarURL({
+                size: 1024,
+              }),
+            },
+            title: capitalizeFirstLetter(commandInfo.name),
+            description:
+              commandInfo?.description ||
+              "This command has no description set.",
+          }),
+        ],
+      });
+    } else if (categories.includes(message.content.slice(7))) {
+      let categoryDesc = "";
 
-      if (!commandsByCategory[category]) {
-        commandsByCategory[category] = [];
+      switch (message.content.slice(7)) {
+        case "actions":
+          categoryDesc =
+            "These commands allow you to interact with the users in the server!";
+          break;
+        case "fun":
+          categoryDesc = "Goof off with your friends!";
+          break;
+        default:
+          categoryDesc = "This category has no description set.";
+          break;
       }
 
-      const categoryCommands = commandsByCategory[category];
-      categoryCommands.push(name);
-    });
+      const commandStore = this.container.stores.get("commands");
+      const commands: string[] = [];
 
-    const categoryArray = Object.entries(commandsByCategory).map(
-      ([category, commands]) => ({
-        name: category,
-        commands,
-      })
-    );
+      commandStore.forEach((command: Command) => {
+        const { name, category: cmdcat } = command as CommandInfo;
 
-    return message.reply({
-      embeds: [
-        constructEmbed({
-          author: {
-            name: "Fluff's Commands",
-            iconURL: this.container.client.user?.displayAvatarURL({
-              size: 1024,
-            }),
-          },
-          description: `Here are the current commands available! If you'd like information on a specific command, run **f!help <command>** or to view information about a specific category, you can run **f!help <category>**.`,
-          fields: categoryArray.map((category) => ({
-            name: capitalizeFirstLetter(category.name),
-            value: category.commands.join(", "),
-            inline: false,
-          })),
-          footer: {
-            text: `Requested by: ${message.author.tag.replace("#0", "")}`,
-          },
-        }),
-      ],
-    });
+        if (cmdcat != message.content.slice(7)) return;
+        commands.push(name);
+      });
+
+      return message.reply({
+        embeds: [
+          constructEmbed({
+            author: {
+              name: capitalizeFirstLetter(message.content.slice(7)),
+              iconURL: this.container.client.user?.displayAvatarURL({
+                size: 1024,
+              }),
+            },
+            description: categoryDesc,
+            fields: [
+              {
+                name: "Commands",
+                value: commands.join(", ") || "This category has no commands.",
+                inline: false,
+              },
+            ],
+          }),
+        ],
+      });
+    } else {
+      const commandsByCategory: Record<string, string[]> = {};
+
+      commandStore.forEach((command: Command) => {
+        if (!command.typing === true) return;
+
+        const { name, category } = command as CommandInfo;
+
+        if (!commandsByCategory[category]) {
+          commandsByCategory[category] = [];
+        }
+
+        const categoryCommands = commandsByCategory[category];
+        categoryCommands.push(name);
+      });
+
+      const categoryArray = Object.entries(commandsByCategory).map(
+        ([category, commands]) => ({
+          name: category,
+          commands,
+        })
+      );
+
+      return message.reply({
+        embeds: [
+          constructEmbed({
+            author: {
+              name: "Fluff's Commands",
+              iconURL: this.container.client.user?.displayAvatarURL({
+                size: 1024,
+              }),
+            },
+            description: `Here are the current commands available! If you'd like information on a specific command, run **f!help <command>** or to view information about a specific category, you can run **f!help <category>**.`,
+            fields: categoryArray.map((category) => ({
+              name: capitalizeFirstLetter(category.name),
+              value: category.commands.join(", "),
+              inline: false,
+            })),
+            footer: {
+              text: `Requested by: ${message.author.tag.replace("#0", "")}`,
+            },
+          }),
+        ],
+      });
+    }
   }
 
   public async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
@@ -103,13 +178,14 @@ export class HelpCommand extends Command {
 
       switch (category) {
         case "actions":
-            categoryDesc = "These commands allow you to interact with the users in the server"
+          categoryDesc =
+            "These commands allow you to interact with the users in the server";
           break;
         case "fun":
-            categoryDesc = "Goof off with your friends!"
+          categoryDesc = "Goof off with your friends!";
           break;
-        default: 
-            categoryDesc = "This category has no description set."
+        default:
+          categoryDesc = "This category has no description set.";
           break;
       }
 
@@ -120,8 +196,8 @@ export class HelpCommand extends Command {
         const { name, category: cmdcat } = command as CommandInfo;
 
         if (cmdcat != category) return;
-        commands.push(name)
-      })
+        commands.push(name);
+      });
 
       return interaction.reply({
         embeds: [
@@ -137,18 +213,19 @@ export class HelpCommand extends Command {
               {
                 name: "Commands",
                 value: commands.join(", ") || "This category has no commands.",
-                inline: false
-              }
-            ]
-          })
-        ]
-      })
-
+                inline: false,
+              },
+            ],
+          }),
+        ],
+      });
     } else if (category.length < 1 || command.length > 1) {
       const commandStore = this.container.stores.get("commands");
-      const filteredCommands = commandStore.filter((cmd) => cmd.name === command)
-      const commandInfo = filteredCommands.get(command)
-      
+      const filteredCommands = commandStore.filter(
+        (cmd) => cmd.name === command
+      );
+      const commandInfo = filteredCommands.get(command);
+
       return interaction.reply({
         embeds: [
           constructEmbed({
@@ -159,11 +236,12 @@ export class HelpCommand extends Command {
               }),
             },
             title: capitalizeFirstLetter(command),
-            description: commandInfo?.description || "This command has no description set."
-          })
-        ]
-      })
-
+            description:
+              commandInfo?.description ||
+              "This command has no description set.",
+          }),
+        ],
+      });
     } else {
       const commandStore = this.container.stores.get("commands");
       const commandsByCategory: Record<string, string[]> = {};
@@ -201,9 +279,11 @@ export class HelpCommand extends Command {
               "Here are the current commands available! If you'd like information on a specific command, pick it when running the slash command. However, do note that since you ran the slash command for help, this will only show available slash commands.",
             fields: categoryArray.map((category) => ({
               name: capitalizeFirstLetter(category.name),
-              value: category.commands.join(", ") || "This category has no commands.",
+              value:
+                category.commands.join(", ") ||
+                "This category has no commands.",
               inline: false,
-            }))
+            })),
           }),
         ],
       });

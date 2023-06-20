@@ -12,7 +12,9 @@ export class BarkCommand extends Command {
   }
 
   public async messageRun(message: Message) {
-    const giverName = cleanName(message.author.username);
+    const giverName = cleanName(
+      message.member?.displayName || message.author.username
+    );
     const recieverArray: string[] = [];
     let recievers = "";
 
@@ -36,34 +38,51 @@ export class BarkCommand extends Command {
           " and " +
           recieverArray[recieverArray.length - 1];
       }
+
+      const barks = [
+        `barks at ${recievers}!`,
+        `yips at ${recievers}!`,
+        `lets out a few barks at ${recievers}!`,
+        `scoots over to ${recievers} and barks at them!`,
+        `bark bark barks at ${recievers}!`,
+        `yaps and barks at ${recievers}!`,
+        `pokes ${recievers} and barks at them!`,
+        `barks loudly at ${recievers}!`,
+        `barks a whole lot at ${recievers}!`,
+        `casually barks at ${recievers}!`,
+        `tries to get the attention of ${recievers} by barking at them!`,
+        `barks at ${recievers} from a distance!`,
+        `lets out a sharp bark at ${recievers}!`,
+        `happily barks at ${recievers}!`,
+        `barks a couple of times at ${recievers}!`,
+        `boofs at ${recievers}!`,
+        `wants attention so they bark at ${recievers}!`,
+        `barks once at ${recievers}!`,
+        `runs towards ${recievers}, barking the whole way!`,
+        `continually barks at ${recievers}!`,
+        `doesn't stop barking at ${recievers}!`,
+      ];
+
+      const rand = Math.floor(Math.random() * barks.length);
+
+      return message.channel.send(`**${giverName}** ${barks[rand]}`);
     }
 
-    const barks = [
-      `barks at ${recievers}!`,
-      `yips at ${recievers}!`,
-      `lets out a few barks at ${recievers}!`,
-      `scoots over to ${recievers} and barks at them!`,
-      `bark bark barks at ${recievers}!`,
-      `yaps and barks at ${recievers}!`,
-      `pokes ${recievers} and barks at them!`,
-      `barks loudly at ${recievers}!`,
-      `barks a whole lot at ${recievers}!`,
-      `casually barks at ${recievers}!`,
-      `tries to get the attention of ${recievers} by barking at them!`,
-      `barks at ${recievers} from a distance!`,
-      `lets out a sharp bark at ${recievers}!`,
-      `happily barks at ${recievers}!`,
-      `barks a couple of times at ${recievers}!`,
-      `boofs at ${recievers}!`,
-      `wants attention so they bark at ${recievers}!`,
-      `barks once at ${recievers}!`,
-      `runs towards ${recievers}, barking the whole way!`,
-      `continually barks at ${recievers}!`,
-      `doesn't stop barking at ${recievers}!`,
+    const selfbarks = [
+      `barks out loud!`,
+      `barks for attention!`,
+      `barks to make their presence known!`,
+      `barks at everyone!`,
+      `barks happily!`,
+      `barks loudly!`,
+      `barks at their mirror image!`,
+      `barks at their own tail!`,
+      `barks softly!`,
+      `barks up the wrong tree!`,
     ];
 
-    const rand = Math.floor(Math.random() * barks.length);
+    const rand = Math.floor(Math.random() * selfbarks.length);
 
-    return message.channel.send(`**${giverName}** ${barks[rand]}`)
+    return message.channel.send(`**${giverName}** ${selfbarks[rand]}`);
   }
 }

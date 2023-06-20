@@ -23,7 +23,8 @@ export class MessageCommandDenied extends Listener<
         ],
       });
     } catch (err) {
-      this.container.logger.fatal(err);
+      this.container.sentry.captureException(err)
+      
       message.reply({
         embeds: [
           constructEmbed({

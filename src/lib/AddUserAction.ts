@@ -20,6 +20,16 @@ export async function addUserAction(action: string, reciever: string) {
   if (!actionList.includes(action))
     throw new Error(`Invalid action: ${action}`);
 
+  await container.prisma.user.upsert({
+    where: {
+      discordId: reciever,
+    },
+    update: {},
+    create: {
+      discordId: reciever,
+    },
+  });
+
   await container.prisma.action.create({
     data: {
       type: action,

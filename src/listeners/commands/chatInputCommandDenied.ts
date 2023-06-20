@@ -1,49 +1,69 @@
-import { EmbedBuilder } from "discord.js";
 import {
   Events,
   Listener,
   type ChatInputCommandDeniedPayload,
   type UserError,
 } from "@sapphire/framework";
+import { constructEmbed } from "../../lib/EmbedBuilder";
 
 export class ChatInputCommandDenied extends Listener<
   typeof Events.ChatInputCommandDenied
 > {
   public run(error: UserError, { interaction }: ChatInputCommandDeniedPayload) {
     try {
-      if (error.message == "1") {
-        const message =
-          "Sorry, this server is blacklisted from the bot. If the owner would like to appeal, join the support server.";
-        return this.replyWithError(message, interaction);
+      if (interaction.deferred) {
+        interaction.editReply({
+          embeds: [
+            constructEmbed({
+              author: {
+                name: `| ${error.message}`,
+                iconURL: interaction.user.displayAvatarURL({ size: 1024 }),
+              },
+              color: 15548997,
+            }),
+          ],
+        });
+      } else {
+        interaction.reply({
+          embeds: [
+            constructEmbed({
+              author: {
+                name: `| ${error.message}`,
+                iconURL: interaction.user.displayAvatarURL({ size: 1024 }),
+              },
+              color: 15548997,
+            }),
+          ],
+        });
       }
-
-      if (error.message == "2") {
-        const message = "Sorry, this command is available to developers only.";
-        return this.replyWithError(message, interaction);
-      }
-
-      return this.replyWithError(error.message, interaction);
     } catch (err) {
-      this.container.logger.fatal(err);
-      return;
-    }
-  }
+      this.container.sentry.captureException(err);
 
-  private replyWithError(
-    message: string,
-    interaction: ChatInputCommandDeniedPayload["interaction"]
-  ) {
-    if (interaction.deferred || interaction.replied) {
-      return interaction.editReply({
-        embeds: [
-          new EmbedBuilder().setDescription(message).setColor("#FF0000"),
-        ],
-      });
+      if (interaction.deferred) {
+        interaction.editReply({
+          embeds: [
+            constructEmbed({
+              author: {
+                name: `| A fatal error has occured while processing your request, please try again later.`,
+                iconURL: interaction.user.displayAvatarURL({ size: 1024 }),
+              },
+              color: 15548997,
+            }),
+          ],
+        });
+      } else {
+        interaction.reply({
+          embeds: [
+            constructEmbed({
+              author: {
+                name: `| A fatal error has occured while processing your request, please try again later.`,
+                iconURL: interaction.user.displayAvatarURL({ size: 1024 }),
+              },
+              color: 15548997,
+            }),
+          ],
+        });
+      }
     }
-
-    return interaction.reply({
-      embeds: [new EmbedBuilder().setDescription(message).setColor("#FF0000")],
-      ephemeral: true,
-    });
   }
 }

@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { GatewayIntentBits } from "discord.js";
 import { getRootData } from "@sapphire/pieces";
 import { LogLevel, SapphireClient, container } from "@sapphire/framework";
+import * as Sentry from "@sentry/node";
 
 import "@sapphire/plugin-api/register";
 
@@ -42,6 +43,10 @@ export class BotClient extends SapphireClient {
 
   public override async login(token?: string) {
     container.prisma = new PrismaClient();
+    container.sentry = Sentry.init({
+      dsn: process.env.SENTRYDSN,
+      tracesSampleRate: 1.0,
+    });
 
     return super.login(token);
   }
@@ -54,6 +59,7 @@ export class BotClient extends SapphireClient {
 
 declare module "@sapphire/pieces" {
   interface Container {
-    prisma: PrismaClient;
+    prisma: PrismaClient,
+    sentry: any;
   }
 }

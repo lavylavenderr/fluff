@@ -21,7 +21,10 @@
     "@sapphire/plugin-scheduled-tasks": "^7.1.0",
     "@sapphire/plugin-subcommands": "^4.0.1",
     "@sapphire/utilities": "^3.11.2",
+    "@sentry/node": "^7.56.0",
+    "@sentry/types": "^7.56.0",
     "chalk": "^4.1.2",
+    "discord-image-generation": "^1.4.25",
     "discord.js": "^14.11.0",
     "dotenv": "^16.0.3",
     "tsc-watch": "^6.0.4"
