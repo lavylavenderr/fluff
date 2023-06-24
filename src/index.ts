@@ -13,11 +13,11 @@ config();
     client.logger.info("Logging in...");
     await client.login();
     await cyclePresence(client);
-    updateBotStatistics(client);
+    await updateBotStatistics(client);
     setInterval(() => cyclePresence(client), 25000);
   } catch (err) {
     client.logger.fatal(err);
-    client.destroy();
+    await client.destroy();
     process.exit(1);
   }
 })();

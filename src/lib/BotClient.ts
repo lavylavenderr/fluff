@@ -1,11 +1,11 @@
+// noinspection JSUnusedGlobalSymbols
+
 import { join } from "path";
 import { PrismaClient } from "@prisma/client";
 import { GatewayIntentBits } from "discord.js";
 import { getRootData } from "@sapphire/pieces";
 import { LogLevel, SapphireClient, container } from "@sapphire/framework";
 import * as Sentry from "@sentry/node";
-
-import "@sapphire/plugin-api/register";
 
 export class BotClient extends SapphireClient {
   private rootData = getRootData();
@@ -18,13 +18,6 @@ export class BotClient extends SapphireClient {
         GatewayIntentBits.Guilds,
         GatewayIntentBits.MessageContent,
       ],
-      api: {
-        prefix: "",
-        origin: "*",
-        listenOptions: {
-          port: 3333,
-        },
-      },
       loadMessageCommandListeners: true,
       defaultPrefix: "f!",
       logger: {

@@ -1,6 +1,6 @@
 import { container } from "@sapphire/framework";
 
-export async function addUserAction(action: string, reciever: string) {
+export async function addUserAction(action: string, receiver: string) {
   const actionList = [
     "bark",
     "bite",
@@ -22,18 +22,18 @@ export async function addUserAction(action: string, reciever: string) {
 
   await container.prisma.user.upsert({
     where: {
-      discordId: reciever,
+      discordId: receiver,
     },
     update: {},
     create: {
-      discordId: reciever,
+      discordId: receiver,
     },
   });
 
   await container.prisma.action.create({
     data: {
       type: action,
-      discordId: reciever,
+      discordId: receiver,
     },
   });
 }

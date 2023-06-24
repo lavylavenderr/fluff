@@ -27,10 +27,9 @@ model User {
 }
 
 model Guild {
-  guildId         String  @unique
-  totalCmds       Int     @default(0)
-  nsfw            Boolean @default(false)
-  blacklistedTags String  @default("")
+  guildId   String  @unique
+  totalCmds Int     @default(0)
+  nsfw      Boolean @default(false)
 }
 
 model BotStats {
